@@ -67,3 +67,72 @@ CHANGE COLUMN correo email VARCHAR(160) NOT NULL;
 
 ALTER TABLE clientes
 CHANGE COLUMN correo email VARCHAR(160) NOT NULL;
+
+-- 10. Cargas para trabajar
+INSERT INTO clientes (nombre, apellido, email, telefono) VALUES
+('Juan', 'Pérez', 'juan.perez@gmail.com', '3001234567'),
+('María', 'Gómez', 'maria.gomez@gmail.com', '3002345678'),
+('Carlos', 'Ramírez', 'carlos.ramirez@gmail.com', '3003456789'),
+('Ana', 'Torres', 'ana.torres@gmail.com', '3004567890'),
+('Luis', 'Martínez', 'luis.martinez@gmail.com', '3005678901');
+
+INSERT INTO telefonos (cliente_id, marca, modelo, imei)
+VALUES
+(
+  (SELECT id FROM clientes WHERE email = 'juan.perez@gmail.com'),
+  'Samsung', 'Galaxy S23', '356789012345678'
+),
+(
+  (SELECT id FROM clientes WHERE email = 'maria.gomez@gmail.com'),
+  'Apple', 'iPhone 14', '356789012345679'
+),
+(
+  (SELECT id FROM clientes WHERE email = 'carlos.ramirez@gmail.com'),
+  'Xiaomi', 'Redmi Note 12', '356789012345680'
+),
+(
+  (SELECT id FROM clientes WHERE email = 'ana.torres@gmail.com'),
+  'Motorola', 'Moto G Power', '356789012345681'
+),
+(
+  (SELECT id FROM clientes WHERE email = 'luis.martinez@gmail.com'),
+  'Huawei', 'P50 Lite', '356789012345682'
+);
+
+INSERT INTO reparaciones (telefono_id, descripcion, estado_id, costo, reparado_en)
+VALUES
+(
+  (SELECT id FROM telefonos WHERE imei = '356789012345678'),
+  'Pantalla rota, reemplazo necesario',
+  2,  -- Suponiendo que 2 = Reparado
+  200000.00,
+  NOW()
+),
+(
+  (SELECT id FROM telefonos WHERE imei = '356789012345679'),
+  'Batería descargándose muy rápido',
+  1,  -- Pendiente
+  150000.00,
+  NULL
+),
+(
+  (SELECT id FROM telefonos WHERE imei = '356789012345680'),
+  'Problema de conexión Wi-Fi',
+  2,  -- Reparado
+  120000.00,
+  NOW()
+),
+(
+  (SELECT id FROM telefonos WHERE imei = '356789012345681'),
+  'Botón de encendido atascado',
+  1,  -- Pendiente
+  130000.00,
+  NULL
+),
+(
+  (SELECT id FROM telefonos WHERE imei = '356789012345682'),
+  'Altavoz con sonido distorsionado',
+  2,  -- Reparado
+  110000.00,
+  NOW()
+);
