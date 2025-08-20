@@ -1,0 +1,15 @@
+# Archivo: nixpacks.toml
+# Este archivo indica a Nixpacks cómo construir backend y frontend.
+
+# ------------------------
+# Backend (Node + TypeScript)
+# ------------------------
+[[phases.setup]]
+command = "cd rep_tel_BE && npm install"
+
+[[phases.build]]
+command = "cd rep_tel_BE && npm run build"
+
+[[phases.start]]
+# Usamos el script de producción
+command = "cd rep_tel_BE && npm run prod"
