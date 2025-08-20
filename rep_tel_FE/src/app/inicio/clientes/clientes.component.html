@@ -1,0 +1,40 @@
+<h2>Listado de Clientes</h2>
+
+<mat-table *ngIf="!!clientes?.length" [dataSource]="clientes" class="mat-elevation-z8">
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+    <mat-cell *matCellDef="let cliente">
+      {{ cliente.nombre }} {{ cliente.apellido }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+    <mat-cell *matCellDef="let cliente"> {{ cliente.email }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="telefono">
+    <mat-header-cell *matHeaderCellDef> Teléfono </mat-header-cell>
+    <mat-cell *matCellDef="let cliente"> {{ cliente.telefono }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="acciones">
+    <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+    <mat-cell *matCellDef="let cliente">
+      <button
+        mat-button
+        color="primary"
+        [routerLink]="['/inicio/telefonos', cliente.id]"
+      >
+        Ver teléfonos
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row
+    *matHeaderRowDef="['nombre', 'email', 'telefono', 'acciones']"
+  ></mat-header-row>
+  <mat-row
+    *matRowDef="let row; columns: ['nombre', 'email', 'telefono', 'acciones']"
+  ></mat-row>
+</mat-table>

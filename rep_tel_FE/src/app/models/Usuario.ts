@@ -4,3 +4,8 @@ export interface Usuario {
   clave_hash: string;
   creado_en: string;
 }
+
+export interface RegistraUsuario {
+  email: string;
+  password: string;
+}

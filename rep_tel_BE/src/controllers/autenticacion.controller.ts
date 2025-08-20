@@ -8,20 +8,42 @@ import { Usuario } from '../models/Usuario';
 export const registrarUsuario = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  // Encriptar la contraseña antes de guardarla
-  const claveEncriptada = await bcrypt.hash(password, 10);
+  if (!email || !password) {
+    return res.status(400).json({ mensaje: 'El correo y la contraseña son obligatorios' });
+  }
 
-  connection.query('INSERT INTO usuarios (email, clave_hash) VALUES (?, ?)', [email, claveEncriptada], (err) => {
-    if (err) {
-      return res.status(500).json({ mensaje: 'Error al registrar usuario', error: err });
+  try {
+    if (!email || !password) {
+      return res.status(400).json({ mensaje: 'El correo y la contraseña son obligatorios' });
     }
 
-    res.status(201).json({ mensaje: 'Usuario registrado exitosamente' });
-  });
+    connection.query('SELECT id FROM usuarios WHERE email = ?', [email], async (err, resultados: any) => {
+      if (err) {
+        return res.status(500).json({ mensaje: 'Error en la consulta', error: err });
+      }
+
+      if (resultados.length > 0) {
+        return res.status(400).json({ mensaje: 'El correo ya está registrado' });
+      }
+
+      // Encriptar la contraseña antes de guardarla
+      const claveEncriptada = await bcrypt.hash(password, 10);
+
+      connection.query('INSERT INTO usuarios (email, clave_hash) VALUES (?, ?)', [email, claveEncriptada], (err) => {
+        if (err) {
+          return res.status(500).json({ mensaje: 'Error al registrar usuario', error: err });
+        }
+
+        res.status(201).json({ mensaje: 'Usuario registrado exitosamente' });
+      });
+    });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error inesperado', error });
+  }
 };
 
 export const iniciarSesion = (req: Request, res: Response) => {
-  const { email, clave } = req.body;
+  const { email, password } = req.body;
 
   connection.query('SELECT * FROM usuarios WHERE email = ?', [email], async (err, resultados) => {
     if (err) {
@@ -35,7 +57,7 @@ export const iniciarSesion = (req: Request, res: Response) => {
     const [usuario] = usuarios;
 
     // Verificar si la contraseña coincide
-    const esValida = await bcrypt.compare(clave, usuario.clave_hash);
+    const esValida = await bcrypt.compare(password, usuario.clave_hash);
     if (!esValida) return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
 
     // Generar un token JWT válido por 2 horas

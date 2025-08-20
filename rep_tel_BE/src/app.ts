@@ -6,23 +6,23 @@ import telefonosRoutes from './routes/telefonos.routes';
 import reparacionesRoutes from './routes/reparaciones.routes';
 import { env } from './config/env';
 import usuariosRoutes from './routes/usuarios.routes';
+import { verificarToken } from './middlewares/auth';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/auth', autenticacionRoutes);
-app.use('/api/clientes', clientesRoutes);
-app.use('/api/telefonos', telefonosRoutes);
-app.use('/api/reparaciones', reparacionesRoutes);
-app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/autenticacion', autenticacionRoutes);
+app.use('/api/clientes', verificarToken, clientesRoutes);
+app.use('/api/telefonos', verificarToken, telefonosRoutes);
+app.use('/api/reparaciones', verificarToken, reparacionesRoutes);
+app.use('/api/usuarios', verificarToken, usuariosRoutes);
 
 app.get('/', (req, res) => res.send('Backend Reparacion celulares funcionando'));
 
 app.listen(env.PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${env.PORT}`);
 });
-
 
 export default app;

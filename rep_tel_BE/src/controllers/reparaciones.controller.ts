@@ -3,22 +3,6 @@ import connection from '../db-connection';
 import { AuthRequest } from '../auth';
 import { Reparacion, ReparacionDetalle } from '../models/Reparacion';
 
-export function listarReparaciones(req: AuthRequest, res: Response) {
-  const telefonoId = Number(req.params.id);
-
-  connection.query(
-    'SELECT * FROM reparaciones WHERE telefono_id=? ORDER BY COALESCE(reparado_en, creado_en) DESC',
-    [telefonoId],
-    (err, resultados) => {
-      if (err) {
-        return res.status(500).json({ mensaje: 'Error al obtener reparaciones', error: err });
-      }
-      const reparaciones: Reparacion[] = resultados as Reparacion[];
-      res.json(reparaciones);
-    }
-  );
-}
-
 export function crearReparacionTel(req: AuthRequest, res: Response) {
   const telefonoId = Number(req.params.id);
   const { descripcion, estado, precio, reparado_en } = req.body;
@@ -42,10 +26,28 @@ export function crearReparacionTel(req: AuthRequest, res: Response) {
   );
 }
 
+export function listarReparacionesPorTelefono(req: AuthRequest, res: Response) {
+  const telefonoId = Number(req.params.id);
+  const { sql, params } = _queryReparaciones(telefonoId);
+
+  connection.query(sql, params, (err, resultados) => {
+    if (err) return res.status(500).json({ mensaje: 'Error al obtener reparaciones', error: err });
+    res.json(_mapReparaciones(resultados as any[]));
+  });
+}
+
 export function listarFullReparaciones(req: AuthRequest, res: Response) {
   const order = (req.query.order as string)?.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
+  const { sql, params } = _queryReparaciones(undefined, order as 'ASC' | 'DESC');
 
-  const sql = `
+  connection.query(sql, params, (err, resultados) => {
+    if (err) return res.status(500).json({ mensaje: 'Error al obtener reparaciones', error: err });
+    res.json(_mapReparaciones(resultados as any[]));
+  });
+}
+
+function _queryReparaciones(telefonoId?: number, order: 'ASC' | 'DESC' = 'DESC') {
+  let sql = `
     SELECT r.id AS reparacion_id,
            r.descripcion,
            r.costo,
@@ -65,15 +67,21 @@ export function listarFullReparaciones(req: AuthRequest, res: Response) {
     JOIN telefonos t ON t.id = r.telefono_id
     JOIN clientes c ON c.id = t.cliente_id
     JOIN estados_reparacion e ON e.id = r.estado_id
-    ORDER BY COALESCE(r.reparado_en, r.creado_en) ${order}
   `;
 
-  connection.query(sql, (err, resultados) => {
-    if (err) {
-      return res.status(500).json({ mensaje: 'Error al obtener reparaciones', error: err });
-    }
+  const params: any[] = [];
+  if (telefonoId) {
+    sql += ' WHERE r.telefono_id = ?';
+    params.push(telefonoId);
+  }
 
-    const reparacionesDetalle: ReparacionDetalle[] = (resultados as any[]).map((r) => ({
+  sql += ` ORDER BY COALESCE(r.reparado_en, r.creado_en) ${order}`;
+  return { sql, params };
+}
+
+
+function _mapReparaciones(resultados: any[]): ReparacionDetalle[] {
+  return resultados.map((r) => ({
       id: r.reparacion_id,
       descripcion: r.descripcion,
       costo: r.costo,
@@ -97,7 +105,6 @@ export function listarFullReparaciones(req: AuthRequest, res: Response) {
         telefono: r.cliente_telefono,
         creado_en: r.cliente_creado_en,
       },
-    }));
-    res.json(reparacionesDetalle);
-  });
+  }));
 }
+

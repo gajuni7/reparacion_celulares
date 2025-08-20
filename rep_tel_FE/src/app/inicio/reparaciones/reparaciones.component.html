@@ -1,0 +1,52 @@
+
+<ng-container *ngIf="!!reparaciones?.length; else sinReparaciones">
+
+<mat-card class="cliente-telefono-card" *ngIf="telefono" class="mb-3">
+<mat-toolbar color="primary" *ngIf="telefono" class="mb-3">
+<h2>Reparaciones del Teléfono de {{ cliente?.nombre }} {{ cliente?.apellido }}</h2>
+</mat-toolbar>
+  <mat-card-content>
+    <p><strong>Marca:</strong> {{ telefono.marca }}</p>
+    <p><strong>Modelo:</strong> {{ telefono.modelo }}</p>
+  </mat-card-content>
+</mat-card>
+
+<mat-table [dataSource]="reparaciones" class="mat-elevation-z8 tabla-reparaciones" *ngIf="reparaciones.length; else sinReparaciones">
+
+  <ng-container matColumnDef="creado_en">
+    <mat-header-cell *matHeaderCellDef> Fecha Ingreso</mat-header-cell>
+    <mat-cell *matCellDef="let rep"> {{ rep.creado_en | date:'short' }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="estado">
+    <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+    <mat-cell *matCellDef="let rep"> {{ rep.estado }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="descripcion">
+    <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+    <mat-cell *matCellDef="let rep"> {{ rep.descripcion }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="costo">
+    <mat-header-cell *matHeaderCellDef> Costo </mat-header-cell>
+    <mat-cell *matCellDef="let rep"> {{ rep.costo | currency }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="reparado_en">
+    <mat-header-cell *matHeaderCellDef> Reparado en </mat-header-cell>
+    <mat-cell *matCellDef="let rep">
+      {{ rep.reparado_en ? (rep.reparado_en | date:'short') : 'Pendiente' }}
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>
+</ng-container>
+
+
+<ng-template #sinReparaciones>
+  <p>No hay reparaciones para este teléfono.</p>
+</ng-template>
