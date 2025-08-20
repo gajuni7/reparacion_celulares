@@ -8,6 +8,7 @@ import reparacionEstadoRoutes from './routes/reparacion-estado.routes';
 import { env } from './config/env';
 import usuariosRoutes from './routes/usuarios.routes';
 import { verificarToken } from './middlewares/auth';
+import path from 'path';
 
 const app = express();
 
@@ -20,6 +21,17 @@ app.use('/api/telefonos', verificarToken, telefonosRoutes);
 app.use('/api/reparaciones', verificarToken, reparacionesRoutes);
 app.use('/api/reparacion-estado', verificarToken, reparacionEstadoRoutes);
 app.use('/api/usuarios', verificarToken, usuariosRoutes);
+
+
+// ---------------------------
+// Servir frontend Angular
+// ---------------------------
+app.use(express.static(path.join(__dirname, '../rep_tel_FE/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../rep_tel_FE/dist/index.html'));
+});
+
 
 app.get('/', (req, res) => res.send('Backend Reparacion celulares funcionando'));
 
