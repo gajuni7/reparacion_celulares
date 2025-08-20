@@ -60,3 +60,10 @@ INSERT INTO estados_reparacion (nombre) VALUES
 ('Pendiente'),
 ('En progreso'),
 ('Finalizado');
+
+-- 9. Cambios despues de creacion de tablas
+ALTER TABLE usuarios
+CHANGE COLUMN correo email VARCHAR(160) NOT NULL;
+
+ALTER TABLE clientes
+CHANGE COLUMN correo email VARCHAR(160) NOT NULL;
