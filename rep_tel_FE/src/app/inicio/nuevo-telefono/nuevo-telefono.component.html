@@ -1,20 +1,52 @@
-<!-- <h2>Registrar Nuevo Teléfono</h2>
+<form
+  [formGroup]="telefonoForm"
+  (ngSubmit)="guardarTelefono()"
+  class="telefono-form"
+>
+  <mat-card>
+    <mat-toolbar color="primary" class="mb-3">
+      <mat-icon color="primary" class="cel-icon mat-text-center"
+        >smartphone</mat-icon
+      >
+      <mat-card-title class="mat-text-center"
+        >Agregar Teléfono a
+        {{ cliente?.nombre + " " + cliente?.apellido }}</mat-card-title
+      >
+    </mat-toolbar>
 
-<form [formGroup]="telefonoForm" (ngSubmit)="guardar()">
-  <mat-form-field appearance="fill">
-    <mat-label>Marca</mat-label>
-    <input matInput formControlName="marca" />
-  </mat-form-field>
+    <mat-card-content>
+      <div class="d-flex flex-column gap-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Marca *</mat-label>
+          <input matInput formControlName="marca" />
+          <mat-error *ngIf="telefonoForm.get('marca')?.hasError('required')">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Modelo</mat-label>
-    <input matInput formControlName="modelo" />
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Modelo *</mat-label>
+          <input matInput formControlName="modelo" />
+          <mat-error *ngIf="telefonoForm.get('modelo')?.hasError('required')">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>IMEI</mat-label>
-    <input matInput formControlName="imei" />
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>IMEI *</mat-label>
+          <input matInput formControlName="imei" />
+          <mat-error *ngIf="telefonoForm.get('imei')?.hasError('required')">
+            Este campo es requerido
+          </mat-error>
+          <mat-error *ngIf="telefonoForm.get('imei')?.hasError('pattern')">
+            El IMEI debe contener solo números
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
 
-  <button mat-raised-button color="primary" type="submit">Guardar</button>
-</form> -->
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Guardar</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

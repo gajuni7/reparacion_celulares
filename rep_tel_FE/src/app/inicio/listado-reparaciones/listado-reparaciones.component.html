@@ -1,26 +1,63 @@
-<!-- <h2>Listado de Reparaciones</h2>
+<h2>Listado de Reparaciones</h2>
 
-<mat-table [dataSource]="reparaciones" class="mat-elevation-z8">
-  <ng-container matColumnDef="fecha">
-    <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
-    <mat-cell *matCellDef="let rep"> {{ rep.creado_en | date:'short' }} </mat-cell>
-  </ng-container>
+<div class="mb-3">
+
+<mat-table
+  *ngIf="!!reparacionesDetalle?.length"
+  [dataSource]="reparacionesDetalle"
+  class="mat-elevation-z8"
+>
 
   <ng-container matColumnDef="cliente">
     <mat-header-cell *matHeaderCellDef> Cliente </mat-header-cell>
-    <mat-cell *matCellDef="let rep"> {{ rep.cliente }} </mat-cell>
+    <mat-cell *matCellDef="let rep">
+      {{ rep.cliente.nombre }} {{ rep.cliente.apellido }}
+    </mat-cell>
   </ng-container>
+
 
   <ng-container matColumnDef="telefono">
     <mat-header-cell *matHeaderCellDef> Teléfono </mat-header-cell>
-    <mat-cell *matCellDef="let rep"> {{ rep.marca }} {{ rep.modelo }} </mat-cell>
+    <mat-cell *matCellDef="let rep">
+      {{ rep.telefono.marca }} {{ rep.telefono.modelo }}
+    </mat-cell>
   </ng-container>
+
+  <ng-container matColumnDef="descripcion">
+    <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+    <mat-cell *matCellDef="let rep"> {{ rep.descripcion }} </mat-cell>
+  </ng-container>
+
 
   <ng-container matColumnDef="estado">
     <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
     <mat-cell *matCellDef="let rep"> {{ rep.estado }} </mat-cell>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="['fecha','cliente','telefono','estado']"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: ['fecha','cliente','telefono','estado']"></mat-row>
-</mat-table> -->
+
+  <ng-container matColumnDef="costo">
+    <mat-header-cell *matHeaderCellDef> Costo </mat-header-cell>
+    <mat-cell *matCellDef="let rep"> {{ rep.costo | currency }} </mat-cell>
+  </ng-container>
+
+
+  <ng-container matColumnDef="fecha">
+    <mat-header-cell *matHeaderCellDef> Fecha Reparación</mat-header-cell>
+    <mat-cell *matCellDef="let rep"> {{ rep.reparado_en | date:'short' }} </mat-cell>
+  </ng-container>
+
+  <mat-header-row
+    *matHeaderRowDef="[
+      'cliente',
+      'telefono',
+      'descripcion',
+      'estado',
+      'costo',
+      'fecha',
+    ]"
+  ></mat-header-row>
+
+  <mat-row
+    *matRowDef="let row; columns: ['cliente','telefono','descripcion','estado','costo','fecha']"
+  ></mat-row>
+</mat-table>

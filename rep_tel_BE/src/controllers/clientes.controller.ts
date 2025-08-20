@@ -27,10 +27,10 @@ export const obtenerClientePorId = (req: AuthRequest, res: Response) => {
 
 // Crear un nuevo cliente
 export const crearCliente = (req: AuthRequest, res: Response) => {
-  const { name, email, phone } = req.body;
+  const { nombre, apellido, email, telefono } = req.body;
   connection.query(
-    'INSERT INTO clients (name, email, phone) VALUES (?, ?, ?)',
-    [name, email, phone],
+    'INSERT INTO clientes (nombre, apellido, email, telefono) VALUES (?, ?, ?, ?)',
+    [nombre, apellido, email, telefono],
     (err, results) => {
       if (err) {
         return res.status(500).json({ mensaje: 'Error al crear cliente', error: err });

@@ -4,6 +4,7 @@ import autenticacionRoutes from './routes/autenticacion.routes';
 import clientesRoutes from './routes/clientes.routes';
 import telefonosRoutes from './routes/telefonos.routes';
 import reparacionesRoutes from './routes/reparaciones.routes';
+import reparacionEstadoRoutes from './routes/reparacion-estado.routes';
 import { env } from './config/env';
 import usuariosRoutes from './routes/usuarios.routes';
 import { verificarToken } from './middlewares/auth';
@@ -17,6 +18,7 @@ app.use('/api/autenticacion', autenticacionRoutes);
 app.use('/api/clientes', verificarToken, clientesRoutes);
 app.use('/api/telefonos', verificarToken, telefonosRoutes);
 app.use('/api/reparaciones', verificarToken, reparacionesRoutes);
+app.use('/api/reparacion-estado', verificarToken, reparacionEstadoRoutes);
 app.use('/api/usuarios', verificarToken, usuariosRoutes);
 
 app.get('/', (req, res) => res.send('Backend Reparacion celulares funcionando'));

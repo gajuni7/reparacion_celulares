@@ -5,16 +5,21 @@ import { Reparacion, ReparacionDetalle } from '../models/Reparacion';
 
 export function crearReparacionTel(req: AuthRequest, res: Response) {
   const telefonoId = Number(req.params.id);
-  const { descripcion, estado, precio, reparado_en } = req.body;
+  const { descripcion, estado_id, precio, reparado_en } = req.body;
 
   if (!descripcion) {
     return res.status(400).json({ mensaje: 'La descripción es obligatoria' });
   }
 
+  const fechaAhora = new Date();
+  const reparadoEnSQL = reparado_en
+    ? new Date(reparado_en).toISOString().slice(0, 19).replace('T', ' ')
+    : fechaAhora.toISOString().slice(0, 19).replace('T', ' ');
+
   connection.query(
-    `INSERT INTO reparaciones (phone_id, descripcion, estado, costo, reparado_en)
+    `INSERT INTO reparaciones (telefono_id, descripcion, estado_id, costo, reparado_en)
      VALUES (?, ?, ?, ?, ?)`,
-    [telefonoId, descripcion, estado ?? 'pendiente', precio ?? 0, reparado_en ?? null],
+    [telefonoId, descripcion, estado_id ?? 1, precio ?? 0, reparadoEnSQL],
     (err, resultado) => {
       if (err) {
         return res.status(500).json({ mensaje: 'Error al crear reparación', error: err });

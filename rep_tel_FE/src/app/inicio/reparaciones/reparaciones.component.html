@@ -1,15 +1,21 @@
 
 <ng-container *ngIf="!!reparaciones?.length; else sinReparaciones">
 
-<mat-card class="cliente-telefono-card" *ngIf="telefono" class="mb-3">
-<mat-toolbar color="primary" *ngIf="telefono" class="mb-3">
-<h2>Reparaciones del Teléfono de {{ cliente?.nombre }} {{ cliente?.apellido }}</h2>
-</mat-toolbar>
-  <mat-card-content>
-    <p><strong>Marca:</strong> {{ telefono.marca }}</p>
-    <p><strong>Modelo:</strong> {{ telefono.modelo }}</p>
-  </mat-card-content>
-</mat-card>
+<ng-container *ngIf="cliente && telefono">
+  <mat-card class="cliente-telefono-card" *ngIf="telefono" class="mb-3">
+  <mat-toolbar color="primary" *ngIf="telefono" class="mb-3">
+    <button mat-icon-button [routerLink]="['/inicio/telefonos', cliente?.id]">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>Reparaciones del Teléfono de {{ cliente?.nombre }} {{ cliente?.apellido }}</h2>
+  </mat-toolbar>
+    <mat-card-content>
+      <p><strong>Marca:</strong> {{ telefono.marca }}</p>
+      <p><strong>Modelo:</strong> {{ telefono.modelo }}</p>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
 
 <mat-table [dataSource]="reparaciones" class="mat-elevation-z8 tabla-reparaciones" *ngIf="reparaciones.length; else sinReparaciones">
 

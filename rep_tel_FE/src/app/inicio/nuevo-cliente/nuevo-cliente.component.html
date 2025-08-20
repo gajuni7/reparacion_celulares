@@ -1,25 +1,46 @@
-<!-- <h2>Registrar Nuevo Cliente</h2>
+<form [formGroup]="clienteForm" (ngSubmit)="guardarCliente()" class="cliente-form">
+  <mat-card>
+      <mat-toolbar color="primary" class="mb-3">
+        <mat-icon color="primary" class="cel-icon mat-text-center"
+        >person_add</mat-icon
+      >
+      <mat-card-title class="mat-text-center">Crear Cliente</mat-card-title>
+      </mat-toolbar>
+    <mat-card-content>
+      <div class="d-flex flex-column gap-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Nombres *</mat-label>
+          <input matInput formControlName="nombre" />
+          <mat-error *ngIf="clienteForm.get('nombre')?.hasError('required')">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
 
-<form [formGroup]="clienteForm" (ngSubmit)="guardar()">
-  <mat-form-field appearance="fill">
-    <mat-label>Nombre</mat-label>
-    <input matInput formControlName="nombre" />
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Apellidos *</mat-label>
+          <input matInput formControlName="apellido" />
+          <mat-error *ngIf="clienteForm.get('apellido')?.hasError('required')">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Apellido</mat-label>
-    <input matInput formControlName="apellido" />
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Correo</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Email</mat-label>
-    <input matInput type="email" formControlName="email" />
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="telefono" />
+          <mat-error *ngIf="clienteForm.get('telefono')?.hasError('pattern')">
+            El teléfono debe contener solo números
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Teléfono</mat-label>
-    <input matInput formControlName="telefono" />
-  </mat-form-field>
-
-  <button mat-raised-button color="primary" type="submit">Guardar</button>
-</form> -->
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Guardar</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

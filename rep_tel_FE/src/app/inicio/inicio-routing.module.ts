@@ -20,7 +20,7 @@ const routes: Routes = [
       { path: 'nuevo-cliente', component: NuevoClienteComponent },
       { path: 'nuevo-telefono/:clienteId', component: NuevoTelefonoComponent },
       {
-        path: 'nueva-reparacion/:telefonoId',
+        path: 'nueva-reparacion/:clienteId/:telefonoId',
         component: NuevaReparacionComponent,
       },
       { path: 'listado-reparaciones', component: ListadoReparacionesComponent },

@@ -10,9 +10,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ],
-  providers: [],
+    providers: [
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

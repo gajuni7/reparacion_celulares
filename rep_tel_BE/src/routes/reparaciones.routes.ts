@@ -5,7 +5,7 @@ import { authenticate } from '../auth';
 const router = Router();
 
 router.get('/telefono/:id', authenticate, listarReparacionesPorTelefono);
-router.post('/:id', authenticate, crearReparacionTel);
+router.post('/telefono/:id', authenticate, crearReparacionTel);
 router.get('/detalle', authenticate, listarFullReparaciones);
 
 export default router;
