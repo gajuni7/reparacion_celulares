@@ -6,10 +6,10 @@ import connection from '../db-connection';
 import { Usuario } from '../models/Usuario';
 
 export const registrarUsuario = async (req: Request, res: Response) => {
-  const { email, clave } = req.body;
+  const { email, password } = req.body;
 
   // Encriptar la contraseña antes de guardarla
-  const claveEncriptada = await bcrypt.hash(clave, 10);
+  const claveEncriptada = await bcrypt.hash(password, 10);
 
   connection.query('INSERT INTO usuarios (email, clave_hash) VALUES (?, ?)', [email, claveEncriptada], (err) => {
     if (err) {
