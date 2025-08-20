@@ -22,17 +22,6 @@ app.use('/api/reparaciones', verificarToken, reparacionesRoutes);
 app.use('/api/reparacion-estado', verificarToken, reparacionEstadoRoutes);
 app.use('/api/usuarios', verificarToken, usuariosRoutes);
 
-
-// ---------------------------
-// Servir frontend Angular
-// ---------------------------
-app.use(express.static(path.join(__dirname, '../rep_tel_FE/dist')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../rep_tel_FE/dist/index.html'));
-});
-
-
 app.get('/', (req, res) => res.send('Backend Reparacion celulares funcionando'));
 
 app.listen(env.PORT, () => {
