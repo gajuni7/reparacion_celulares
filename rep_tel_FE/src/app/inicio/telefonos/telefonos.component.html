@@ -1,0 +1,60 @@
+<h2>Teléfonos del Cliente: {{ cliente?.nombre }} {{ cliente?.apellido }}</h2>
+
+<mat-table
+  *ngIf="!!telefonos?.length; else sinTelefonos"
+  [dataSource]="telefonos"
+  class="mat-elevation-z8"
+>
+  <ng-container matColumnDef="marca">
+    <mat-header-cell *matHeaderCellDef> Marca </mat-header-cell>
+    <mat-cell *matCellDef="let tel"> {{ tel.marca }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="modelo">
+    <mat-header-cell *matHeaderCellDef> Modelo </mat-header-cell>
+    <mat-cell *matCellDef="let tel"> {{ tel.modelo }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="imei">
+    <mat-header-cell *matHeaderCellDef> IMEI </mat-header-cell>
+    <mat-cell *matCellDef="let tel"> {{ tel.imei }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="reparaciones">
+    <mat-header-cell *matHeaderCellDef> Reparaciones </mat-header-cell>
+    <mat-cell *matCellDef="let tel">
+      <button
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/inicio/reparaciones', tel.telefono_id]"
+      >
+        <mat-icon class="mr-1">visibility</mat-icon>
+        Mostrar
+      </button>
+    </mat-cell>
+  </ng-container>
+
+    <ng-container matColumnDef="nuevaReparacion">
+    <mat-header-cell *matHeaderCellDef> Nueva Reparación </mat-header-cell>
+    <mat-cell *matCellDef="let tel">
+      <button
+        mat-raised-button
+        color="accent"
+        [routerLink]="['/inicio/nueva-reparacion/', cliente.id, tel.telefono_id]"
+      >
+        + Agregar
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row
+    *matHeaderRowDef="['marca', 'modelo', 'imei', 'reparaciones', 'nuevaReparacion']"
+  ></mat-header-row>
+  <mat-row
+    *matRowDef="let row; columns: ['marca', 'modelo', 'imei', 'reparaciones', 'nuevaReparacion']"
+  ></mat-row>
+</mat-table>
+
+<ng-template #sinTelefonos>
+  <p>Este cliente no tiene teléfonos registrados.</p>
+</ng-template>

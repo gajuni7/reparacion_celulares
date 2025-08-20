@@ -1,0 +1,10 @@
+<mat-toolbar color="primary">
+  <span>{{ data.title || "Confirmar" }}</span>
+</mat-toolbar>
+
+<mat-dialog-content>
+  {{ data.message }}
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="confirmar()">Aceptar</button>
+</mat-dialog-actions>

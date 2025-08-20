@@ -1,0 +1,86 @@
+<div class="autenticacion-wrapper">
+  <mat-card class="autenticacion-card">
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
+      <mat-icon color="primary" class="cel-icon mat-text-center"
+        >person_add</mat-icon
+      >
+      <mat-card-title class="mat-text-center">Crear Usuario</mat-card-title>
+    </div>
+
+    <mat-card-content>
+      <form [formGroup]="registraUsuarioForm" (ngSubmit)="onHacerRegistro()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Correo electrónico</mat-label>
+          <input
+            matInput
+            placeholder="ejemplo@gmail.com"
+            formControlName="email"
+          />
+          <mat-error *ngIf="registraUsuarioForm.get('email')?.invalid">
+            Correo inválido
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            type="password"
+            placeholder="******"
+            formControlName="password"
+          />
+          <mat-error
+            *ngIf="registraUsuarioForm.get('password')?.errors?.['required']"
+          >
+            La contraseña es obligatoria
+          </mat-error>
+          <mat-error
+            *ngIf="registraUsuarioForm.get('password')?.errors?.['minlength']"
+          >
+            La contraseña debe tener al menos 6 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Confirmar contraseña</mat-label>
+          <input
+            matInput
+            type="password"
+            placeholder="******"
+            formControlName="confirmarPassword"
+          />
+          <mat-error
+            *ngIf="registraUsuarioForm.get('confirmarPassword')?.errors?.['required']"
+          >
+            Confirmar contraseña es obligatorio
+          </mat-error>
+          <mat-error
+            *ngIf="registraUsuarioForm.get('confirmarPassword')?.errors?.['passwordMismatch']"
+          >
+            Las contraseñas no coinciden
+          </mat-error>
+        </mat-form-field>
+
+        <div
+          class="button-group"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <button mat-raised-button color="primary" type="submit">
+            Crear usuario
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="onVolverLogin()"
+          >
+            Volver
+          </button>
+        </div>
+      </form>
+
+      <p class="mensaje">{{ mensaje }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

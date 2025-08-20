@@ -1,0 +1,41 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 220px;
+}
+
+.content {
+  padding: 16px;
+}
+
+.hide-desktop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidenav {
+    width: 200px;
+  }
+
+  .hide-desktop {
+    display: inline-flex;
+  }
+}
+
+
+.menu-icon {
+  margin-right: 12px;
+  font-size: 24px;
+  vertical-align: middle;
+}
+
+.menu-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+mat-sidenav-container .mat-drawer-content .content {
+  padding: 30px;
+}

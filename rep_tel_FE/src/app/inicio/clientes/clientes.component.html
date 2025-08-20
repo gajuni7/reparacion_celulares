@@ -1,0 +1,83 @@
+<h2>Listado de Clientes</h2>
+<div class="mb-3">
+  <button
+    mat-raised-button
+    color="primary"
+    [routerLink]="['/inicio/nuevo-cliente']"
+  >
+    + Nuevo Cliente
+  </button>
+</div>
+<mat-table
+  *ngIf="!!clientes?.length"
+  [dataSource]="clientes"
+  class="mat-elevation-z8"
+>
+  <ng-container matColumnDef="nombres">
+    <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+    <mat-cell *matCellDef="let cliente">
+      {{ cliente.nombre }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="apellidos">
+    <mat-header-cell *matHeaderCellDef> Apellidos </mat-header-cell>
+    <mat-cell *matCellDef="let cliente">
+      {{ cliente.apellido }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+    <mat-cell *matCellDef="let cliente"> {{ cliente.email }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="telefono">
+    <mat-header-cell *matHeaderCellDef> Teléfono </mat-header-cell>
+    <mat-cell *matCellDef="let cliente"> {{ cliente.telefono }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="mostrarTelefono">
+    <mat-header-cell *matHeaderCellDef> Telefonos </mat-header-cell>
+    <mat-cell *matCellDef="let cliente">
+      <button
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/inicio/telefonos', cliente.id]"
+      >
+        <mat-icon class="mr-1">visibility</mat-icon>
+        Mostrar
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="nuevoTelefono">
+    <mat-header-cell *matHeaderCellDef> Nuevo Teléfono </mat-header-cell>
+    <mat-cell *matCellDef="let cliente">
+      <button
+        mat-raised-button
+        color="accent"
+        [routerLink]="['/inicio/nuevo-telefono', cliente.id]"
+      >
+        + Agregar
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row
+    *matHeaderRowDef="[
+      'nombres',
+      'apellidos',
+      'email',
+      'telefono',
+      'mostrarTelefono',
+      'nuevoTelefono'
+    ]"
+  ></mat-header-row>
+  <mat-row
+    *matRowDef="
+      let row;
+      columns: ['nombres', 'apellidos', 'email', 'telefono', 'mostrarTelefono', 'nuevoTelefono']
+    "
+  ></mat-row>
+</mat-table>

@@ -1,0 +1,67 @@
+<ng-container *ngIf="cliente && telefono">
+  <div class="cliente-info">
+  <mat-card class="cliente-telefono-card" *ngIf="telefono" class="mb-3">
+  <mat-toolbar color="primary" *ngIf="telefono" class="mb-3">
+    <button mat-icon-button [routerLink]="['/inicio/telefonos', cliente?.id]">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>Nueva Reparación del Teléfono de {{ cliente?.nombre }} {{ cliente?.apellido }}</h2>
+  </mat-toolbar>
+    <mat-card-content>
+      <p><strong>Marca:</strong> {{ telefono.marca }}</p>
+      <p><strong>Modelo:</strong> {{ telefono.modelo }}</p>
+    </mat-card-content>
+  </mat-card>
+  </div>
+</ng-container>
+
+<form [formGroup]="reparacionForm" (ngSubmit)="guardarReparacion()" class="reparacion-form">
+  <mat-card>
+    <mat-toolbar color="primary" class="mb-3">
+      <mat-icon color="white" class="settings-icon mat-text-center">settings</mat-icon>
+      <mat-card-title class="mat-text-center">Crear Reparación</mat-card-title>
+    </mat-toolbar>
+
+    <mat-card-content>
+      <div class="d-flex flex-column gap-3">
+
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Descripción *</mat-label>
+          <textarea matInput rows="3" formControlName="descripcion"></textarea>
+          <mat-error *ngIf="reparacionForm.get('descripcion')?.hasError('required')">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Estado *</mat-label>
+          <mat-select formControlName="estado_id">
+            <mat-option [value]="null">Seleccione un estado</mat-option>
+            <mat-option *ngFor="let estado of estados" [value]="estado.id">
+              {{ estado.nombre }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="reparacionForm.get('estado_id')?.hasError('required')">
+            Seleccione un estado
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Costo</mat-label>
+          <input matInput type="text" formControlName="costo" 
+          (blur)="formatoDinero($event)" />
+          <mat-error *ngIf="reparacionForm.get('costo')?.hasError('min')">
+            El costo debe ser mayor o igual a 0
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">
+        Guardar
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
